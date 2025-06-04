@@ -1,0 +1,25 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "My Lambda API",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "https://api.yourdomain.com"
+      }
+    ],
+    "paths": {
+      "/hello": {
+        "get": {
+          "summary": "Returns a greeting",
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      }
+    }
+  }
+  
