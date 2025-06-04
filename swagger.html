@@ -1,22 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>API Docs</title>
     <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
-  </head>
-  <body>
+</head>
+
+<body>
     <div id="swagger-ui"></div>
     <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
     <script>
-      SwaggerUIBundle({
-        url: "https://pdfy.cloud/openapi.json",  // ✅ Correct OpenAPI JSON path
-        dom_id: '#swagger-ui',
-        displayOperationId: true,
-        presets: [SwaggerUIBundle.presets.apis],
-        layout: "BaseLayout"
-        // NOTE: displayServerInformation is not a valid option in SwaggerUIBundle
-      });
+        const HideInfoUrlPartsPlugin = () => {
+            return {
+                wrapComponents: {
+                    InfoUrl: () => () => null
+                }
+            }
+        }
+        const ui = SwaggerUIBundle({
+            url: "https://pdfy.cloud/openapi.json",
+            dom_id: '#swagger-ui',
+            deepLinking: true,
+            presets: [
+                SwaggerUIBundle.presets.apis
+            ],
+            plugins: [
+                SwaggerUIBundle.plugins.DownloadUrl,
+                HideInfoUrlPartsPlugin    // <---- Apply the plugin
+            ],
+            layout: "BaseLayout"
+        });
     </script>
-  </body>
-</html>
 
+</body>
+
+</html>

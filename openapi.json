@@ -1,8 +1,9 @@
 {
     "openapi": "3.0.1",
     "info": {
-      "title": "My Lambda API",
-      "version": "1.0.0"
+      "title": "PDFY Cloud API",
+      "description": "Seamless integration with our Powerful PDF and Image generation API.",
+      "version": "3.0.0"
     },
     "servers": [
       {
