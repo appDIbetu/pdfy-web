@@ -7,16 +7,289 @@
     },
     "servers": [
       {
-        "url": "https://api.yourdomain.com"
+        "url": "https://api.pdfy.cloud"
       }
     ],
     "paths": {
-      "/hello": {
-        "get": {
-          "summary": "Returns a greeting",
+      "/generate": {
+        "post": {
+          "summary": "Generate PDF or Image",
+          "description": "Generates a PDF or Image based on the provided input and mode.",
+          "parameters": [
+            {
+              "name": "mode",
+              "in": "query",
+              "description": "Operation mode: 'pdf' or 'image'",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "enum": ["pdf", "image"]
+              }
+            },
+            {
+              "name": "x-client-api-key",
+              "in": "header",
+              "description": "API key for authentication",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Request payload for PDF or Image generation",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "$ref": "#/components/schemas/HtmlToPdfRequest" },
+                    { "$ref": "#/components/schemas/UrlToPdfRequest" },
+                    { "$ref": "#/components/schemas/HtmlImageRequest" },
+                    { "$ref": "#/components/schemas/UrlImageRequest" }
+                  ]
+                }
+              }
+            }
+          },
           "responses": {
             "200": {
-              "description": "OK"
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SuccessResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid input"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "HtmlToPdfRequest": {
+          "type": "object",
+          "required": ["html_content"],
+          "properties": {
+            "html_content": {
+              "type": "string",
+              "example": "<html><body><h1>Hello World</h1><p>This is a test.</p></body></html>"
+            },
+            "css_content": {
+              "type": "string",
+              "example": "h1 { color: blue; } p { font-size: 16px; }"
+            },
+            "paper_size": {
+              "type": "string",
+              "default": "A4",
+              "enum": ["A4", "A3", "Letter", "Legal", "Tabloid"]
+            },
+            "landscape": {
+              "type": "boolean",
+              "default": false
+            },
+            "displayHeaderFooter": {
+              "type": "boolean",
+              "default": false
+            },
+            "printBackground": {
+              "type": "boolean",
+              "default": true
+            },
+            "preferCSSPageSize": {
+              "type": "boolean",
+              "default": true
+            },
+            "page_size": {
+              "type": "integer",
+              "default": 20,
+              "minimum": 1,
+              "maximum": 20,
+              "example": 5
+            },
+            "paperWidth": {
+              "type": "integer",
+              "example": 800
+            },
+            "paperHeight": {
+              "type": "integer",
+              "example": 1200
+            }
+          }
+        },
+        "UrlToPdfRequest": {
+          "type": "object",
+          "required": ["url"],
+          "properties": {
+            "url": {
+              "type": "string",
+              "example": "https://pdfmunk.com"
+            },
+            "paper_size": {
+              "type": "string",
+              "default": "A4",
+              "enum": ["A4", "A3", "Letter", "Legal", "Tabloid"]
+            },
+            "landscape": {
+              "type": "boolean",
+              "default": false
+            },
+            "displayHeaderFooter": {
+              "type": "boolean",
+              "default": false
+            },
+            "printBackground": {
+              "type": "boolean",
+              "default": true
+            },
+            "preferCSSPageSize": {
+              "type": "boolean",
+              "default": true
+            },
+            "page_size": {
+              "type": "integer",
+              "default": 20,
+              "minimum": 1,
+              "maximum": 20,
+              "example": 5
+            },
+            "wait_till": {
+              "type": "integer",
+              "default": 0,
+              "example": 0
+            },
+            "paperWidth": {
+              "type": "integer",
+              "example": 800
+            },
+            "paperHeight": {
+              "type": "integer",
+              "example": 1200
+            }
+          }
+        },
+        "HtmlImageRequest": {
+          "type": "object",
+          "required": ["html_content"],
+          "properties": {
+            "html_content": {
+              "type": "string"
+            },
+            "css_content": {
+              "type": "string"
+            },
+            "width": {
+              "type": "integer",
+              "default": 1280
+            },
+            "height": {
+              "type": "integer",
+              "default": 720
+            },
+            "device_scale_factor": {
+              "type": "number",
+              "default": 1
+            },
+            "quality": {
+              "type": "integer",
+              "minimum": 30,
+              "maximum": 100,
+              "default": 80
+            },
+            "font": {
+              "type": "string",
+              "description": "Fonts to use, separated by '|'"
+            },
+            "response_format": {
+              "type": "string",
+              "default": "url",
+              "enum": ["url", "base64", "both", "image"]
+            }
+          }
+        },
+        "UrlImageRequest": {
+          "type": "object",
+          "required": ["url"],
+          "properties": {
+            "url": {
+              "type": "string",
+              "default": "https://pdfmunk.com"
+            },
+            "width": {
+              "type": "integer",
+              "default": 1280
+            },
+            "height": {
+              "type": "integer",
+              "default": 720
+            },
+            "device_scale_factor": {
+              "type": "number",
+              "default": 1
+            },
+            "quality": {
+              "type": "integer",
+              "minimum": 30,
+              "maximum": 100,
+              "default": 80
+            },
+            "full_page": {
+              "type": "boolean",
+              "default": false
+            },
+            "wait_till": {
+              "type": "integer",
+              "default": 0
+            },
+            "viewPortWidth": {
+              "type": "integer",
+              "default": 1280
+            },
+            "viewPortHeight": {
+              "type": "integer",
+              "default": 720
+            },
+            "response_format": {
+              "type": "string",
+              "default": "url",
+              "enum": ["url", "base64", "both", "image"]
+            }
+          }
+        },
+        "SuccessResponse": {
+          "type": "object",
+          "properties": {
+            "pdf_url": {
+              "type": "string",
+              "example": "https://example.com/generated.pdf"
+            },
+            "success": {
+              "type": "boolean",
+              "example": true
+            },
+            "file_size_bytes": {
+              "type": "integer",
+              "example": 188321
+            },
+            "pages": {
+              "type": "integer",
+              "example": 5
+            },
+            "file_deletion_date": {
+              "type": "string",
+              "format": "date",
+              "example": "2025-04-28"
             }
           }
         }
