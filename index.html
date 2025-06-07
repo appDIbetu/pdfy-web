@@ -259,6 +259,14 @@
                             <span>PDF Result</span>
                             <div class="format-toggle">
                                 <button class="format-btn active" data-format="image">Image</button>
+                                <!-- <div class="format-btn active trial-button-container" data-format="image">
+                                    <div class="trial-button-outline-small"></div>
+                                    <div class="trial-button-fill-small">Image</div>
+                                </div>
+                                <div class="format-btn active trial-button-container" data-format="pdf">
+                                    <div class="trial-button-outline-small"></div>
+                                    <div class="trial-button-fill-small">PDF</div>
+                                </div> -->
                                 <button class="format-btn" data-format="pdf">PDF</button>
                             </div>
                         </div>
@@ -269,14 +277,25 @@
                             </div>
                         </div>
                         <div class="preview-actions">
-                            <button class="btn btn-primary download-btn" id="download-pdf" disabled
+                            <!-- <button class="btn btn-primary download-btn" id="download-pdf" disabled
                                 onclick="downloadFile('pdf')">
                                 <span>📄</span> Download PDF
                             </button>
+                            
                             <button class="btn btn-primary download-btn" id="download-png" disabled
                                 onclick="downloadFile('png')">
                                 <span>📥</span> Download PNG
-                            </button>
+                            </button> -->
+
+                            <div onclick="downloadFile('pdf')" class="trial-button-container-download" id="download-pdf" disabled>
+                                <div class="trial-button-outline-download btn-large"></div>
+                                <div class="trial-button-fill-download btn-large"><span>📄</span> Download PDF</div>
+                            </div>
+
+                            <div onclick="downloadFile('png')" class="trial-button-container-download" id="download-png" disabled>
+                                <div class="trial-button-outline-download btn-large"></div>
+                                <div class="trial-button-fill-download btn-large"><span>📥</span> Download PNG</div>
+                            </div>
                         </div>
                     </div>
 
@@ -427,7 +446,10 @@ console.log(result);</code></pre>
                         <li>URL to image and PDF</li>
                         <li>Base64 response</li>
                     </ul>
-                    <button class="btn btn-primary">Purchase now</button>
+                    <div onclick="window.open('https://app.pdfy.cloud', '_blank')" class="trial-button-container">
+                        <div class="trial-button-outline"></div>
+                        <div class="trial-button-fill">Purchase now</div>
+                    </div>
                 </div>
                 <div class="pricing-card">
                     <h3>Business</h3>
@@ -439,7 +461,10 @@ console.log(result);</code></pre>
                         <li>Quality Control</li>
                         <li>Dynamic template</li>
                     </ul>
-                    <button class="btn btn-primary">Purchase now</button>
+                    <div onclick="window.open('https://app.pdfy.cloud', '_blank')" class="trial-button-container">
+                        <div class="trial-button-outline"></div>
+                        <div class="trial-button-fill">Purchase now</div>
+                    </div>
                 </div>
             </div>
         </div>
