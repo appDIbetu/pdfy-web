@@ -127,18 +127,18 @@ let previewGenerationTimeoutId = null;
 let generateFilesTimeoutId = null;
 
 function generatePreview() {
-    console.log("generatePreview: Called.");
+    // console.log("generatePreview: Called.");
     const previewFrameContainer = document.getElementById("preview-frame");
 
     // 1. Clear any existing timeouts from previous calls
     if (previewGenerationTimeoutId) {
         clearTimeout(previewGenerationTimeoutId);
-        console.log("generatePreview: Cleared previous previewGenerationTimeoutId:", previewGenerationTimeoutId);
+        // console.log("generatePreview: Cleared previous previewGenerationTimeoutId:", previewGenerationTimeoutId);
         previewGenerationTimeoutId = null;
     }
     if (generateFilesTimeoutId) {
         clearTimeout(generateFilesTimeoutId);
-        console.log("generatePreview: Cleared previous generateFilesTimeoutId:", generateFilesTimeoutId);
+        // console.log("generatePreview: Cleared previous generateFilesTimeoutId:", generateFilesTimeoutId);
         generateFilesTimeoutId = null;
     }
 
@@ -159,7 +159,7 @@ function generatePreview() {
     // 3. Set timeout for iframe creation and content writing (800ms)
     previewGenerationTimeoutId = setTimeout(() => {
         const currentPgtId = previewGenerationTimeoutId; // Capture for logging
-        console.log(`previewGenerationTimeout (800ms) ID ${currentPgtId}: Fired.`);
+        // console.log(`previewGenerationTimeout (800ms) ID ${currentPgtId}: Fired.`);
         try {
             const iframe = document.createElement("iframe");
             iframe.style.cssText = `
@@ -205,7 +205,7 @@ function generatePreview() {
 
             const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
             if (!iframeDoc) {
-                console.error(`previewGenerationTimeout ID ${currentPgtId}: iframe.contentDocument is null immediately after creation/appending. Iframe:`, iframe);
+                // console.error(`previewGenerationTimeout ID ${currentPgtId}: iframe.contentDocument is null immediately after creation/appending. Iframe:`, iframe);
                 previewFrameContainer.innerHTML = `<div class="preview-placeholder">❌<p>Error: Could not access iframe document.</p></div>`;
                 return;
             }
@@ -244,17 +244,17 @@ function generatePreview() {
             iframeDoc.open();
             iframeDoc.write(finalHtml);
             iframeDoc.close();
-            console.log(`previewGenerationTimeout ID ${currentPgtId}: Wrote final HTML to iframe. Iframe connected: ${iframe.isConnected}. contentDocument valid: ${!!iframe.contentDocument}`);
+            // console.log(`previewGenerationTimeout ID ${currentPgtId}: Wrote final HTML to iframe. Iframe connected: ${iframe.isConnected}. contentDocument valid: ${!!iframe.contentDocument}`);
 
 
             // 4. Set timeout for actual file generation (html2canvas)
             const localIframeRef = iframe; // Ensure closure captures this specific iframe
             generateFilesTimeoutId = setTimeout(() => {
-                const currentGftId = generateFilesTimeoutId; // Capture for logging
-                console.log(`generateFilesTimeout (3000ms) ID ${currentGftId}: Fired. Checking iframe:`, localIframeRef);
-                console.log(`generateFilesTimeout ID ${currentGftId}: Iframe isConnected: ${localIframeRef ? localIframeRef.isConnected : 'iframe_is_null'}`);
+                // const currentGftId = generateFilesTimeoutId; // Capture for logging
+                // console.log(`generateFilesTimeout (3000ms) ID ${currentGftId}: Fired. Checking iframe:`, localIframeRef);
+                // console.log(`generateFilesTimeout ID ${currentGftId}: Iframe isConnected: ${localIframeRef ? localIframeRef.isConnected : 'iframe_is_null'}`);
                 if (localIframeRef && localIframeRef.contentDocument && localIframeRef.isConnected) {
-                    console.log(`generateFilesTimeout ID ${currentGftId}: Calling generateFiles for iframe. Document readyState: ${localIframeRef.contentDocument.readyState}`);
+                    // console.log(`generateFilesTimeout ID ${currentGftId}: Calling generateFiles for iframe. Document readyState: ${localIframeRef.contentDocument.readyState}`);
                     generateFiles(localIframeRef.contentDocument);
                 } else {
                     let reason = "unknown";
@@ -262,11 +262,11 @@ function generatePreview() {
                     else if (!localIframeRef.isConnected) reason = "iframe is not connected to DOM";
                     else if (!localIframeRef.contentDocument) reason = "iframe.contentDocument is null";
 
-                    console.error(`generateFilesTimeout ID ${currentGftId}: Iframe or its document not available. Reason: ${reason}.`, {
-                        iframeExists: !!localIframeRef,
-                        iframeConnected: localIframeRef ? localIframeRef.isConnected : 'N/A',
-                        contentDocumentExists: localIframeRef && localIframeRef.contentDocument ? !!localIframeRef.contentDocument : 'N/A'
-                    });
+                    // console.error(`generateFilesTimeout ID ${currentGftId}: Iframe or its document not available. Reason: ${reason}.`, {
+                    //     iframeExists: !!localIframeRef,
+                    //     iframeConnected: localIframeRef ? localIframeRef.isConnected : 'N/A',
+                    //     contentDocumentExists: localIframeRef && localIframeRef.contentDocument ? !!localIframeRef.contentDocument : 'N/A'
+                    // });
 
                     // Update UI only if this timeout was the last one intended to run
                     // A simple check: if no other preview generation is in its loading phase
@@ -290,7 +290,7 @@ function generatePreview() {
                 </div>`;
         }
     }, 100); // 800ms timeout for initial DOM setup of iframe
-    console.log("generatePreview: Set previewGenerationTimeoutId to:", previewGenerationTimeoutId);
+    // console.log("generatePreview: Set previewGenerationTimeoutId to:", previewGenerationTimeoutId);
 
     // Update API commands (can be done outside timeouts)
     updateApiCommands(processedHtml, params);
@@ -301,14 +301,14 @@ function generatePreview() {
 async function generateFiles(iframeDoc) { // iframeDoc is iframe.contentDocument
     const { jsPDF } = window.jspdf; // Make sure jsPDF is loaded globally or imported
 
-    console.log("generateFiles called with iframeDoc:", iframeDoc);
+    // console.log("generateFiles called with iframeDoc:", iframeDoc);
 
     // The element to capture is the body of the iframe's document.
     const elementToCapture = iframeDoc.body;
 
     if (!elementToCapture) {
-        console.error("iframeDoc.body is not available. Cannot generate files.");
-        alert("Preview content body not found. Please try again or check console.");
+        // console.error("iframeDoc.body is not available. Cannot generate files.");
+        // alert("Preview content body not found. Please try again or check console.");
         document.getElementById("download-pdf").disabled = true;
         document.getElementById("download-png").disabled = true;
         return;
@@ -356,7 +356,7 @@ async function generateFiles(iframeDoc) { // iframeDoc is iframe.contentDocument
         // Enable download buttons
         document.getElementById("download-pdf").disabled = false;
         document.getElementById("download-png").disabled = false;
-        console.log("Files generated successfully and download buttons enabled.");
+        // console.log("Files generated successfully and download buttons enabled.");
 
     } catch (error) {
         console.error("Error during html2canvas or PDF generation:", error);
@@ -538,7 +538,7 @@ function copyToClipboard(elementId) {
                 try {
                     const successful = document.execCommand("copy")
                     const msg = successful ? "successful" : "unsuccessful";
-                    console.log('Fallback: Copying text command was ' + msg);
+                    // console.log('Fallback: Copying text command was ' + msg);
                     // Show copied state on button (same as above)
                     const copyBtn = element.closest(".api-tab-content").querySelector(".copy-btn")
                     const originalText = copyBtn.innerHTML
