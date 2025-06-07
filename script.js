@@ -279,7 +279,7 @@ function generatePreview() {
                     }
                 }
             }, 100); // 3-second timeout for rendering
-            console.log(`previewGenerationTimeout ID ${currentPgtId}: Set generateFilesTimeoutId to: ${generateFilesTimeoutId}`);
+            // console.log(`previewGenerationTimeout ID ${currentPgtId}: Set generateFilesTimeoutId to: ${generateFilesTimeoutId}`);
 
         } catch (error) {
             console.error(`previewGenerationTimeout ID ${currentPgtId}: Error during iframe setup:`, error);
