@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Try Now Editor</title>
+    <style>
+        /* Basic styling for layout */
+        body { font-family: sans-serif; display: flex; height: 100vh; margin: 0; }
+        .editor-pane, .preview-pane { flex: 1; padding: 10px; box-sizing: border-box; }
+        .editor-pane textarea { width: 100%; height: 30%; margin-bottom: 10px; box-sizing: border-box; font-family: monospace; }
+        .preview-pane iframe { width: 100%; height: 100%; border: 1px solid #ccc; }
+        button { padding: 10px 15px; margin-bottom: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="editor-pane">
+        <h2>HTML</h2>
+        <textarea id="html-code" placeholder="Enter HTML here..."></textarea>
+
+        <h2>CSS</h2>
+        <textarea id="css-code" placeholder="Enter CSS here..."></textarea>
+
+        <h2>JavaScript</h2>
+        <textarea id="js-code" placeholder="Enter JavaScript here..."></textarea>
+
+        <button id="run-button">Run Code</button>
+    </div>
+
+    <div class="preview-pane">
+        <h2>Preview</h2>
+        <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin"></iframe>
+        <!-- 
+            The 'sandbox' attribute is important for security.
+            - 'allow-scripts': Lets the iframe run JavaScript.
+            - 'allow-same-origin': Allows scripts to access resources from the same origin (your site),
+                                   but be careful if the iframe content could be truly malicious.
+                                   You might restrict this further if needed.
+            Consider other sandbox options like 'allow-forms', 'allow-popups' if required by the user's code.
+        -->
+    </div>
+
+    <script src="editor.js"></script> 
+    <!-- We'll put our JavaScript logic in editor.js -->
+
+</body>
+</html>
