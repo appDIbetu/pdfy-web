@@ -941,4 +941,114 @@
     box-sizing: border-box;
     overflow: auto;
   }
-  
+
+  .trial-button-container {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    /* Ensure container is large enough for the offset green part to show */
+    /* Width and height will be primarily determined by the outline + offset of fill */
+}
+
+.trial-button-outline {
+    width: 150px;
+    height: 50px;
+    border: 3px solid #1F2937; /* Blackish outline */
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    
+    position: relative; /* Create a stacking context & allow z-index */
+    z-index: 2;         /* Ensure outline is on top */
+    background-color: transparent; /* Or a solid color if the outline itself needs a fill */
+                                  /* If transparent, the green from below might show through the border's inner edge slightly */
+                                  /* Consider making it match page background or a light color for a cleaner look if border is thick */
+}
+
+.trial-button-outline-small {
+    width: 125px;
+    height: 50px;
+    border: 3px solid #1F2937; /* Blackish outline */
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    
+    position: relative; /* Create a stacking context & allow z-index */
+    z-index: 2;         /* Ensure outline is on top */
+    background-color: transparent; /* Or a solid color if the outline itself needs a fill */
+                                  /* If transparent, the green from below might show through the border's inner edge slightly */
+                                  /* Consider making it match page background or a light color for a cleaner look if border is thick */
+}
+
+.trial-button-fill {
+    position: absolute;
+    /* Offset it further down and to the right */
+    top: 6px;    /* Increased offset */
+    left: 6px;   /* Increased offset */
+
+    width: 150px;  /* Match outline's width */
+    height: 50px; /* Match outline's height */
+    background-color: #34D399; /* Vibrant green fill */
+    color: white;
+    border-radius: 0.5rem; /* Match outline's border-radius */
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+
+    z-index: 1; /* Ensure green fill is below the outline */
+    transition: top 0.1s ease-out, left 0.1s ease-out, background-color 0.15s ease-out;
+}
+
+.trial-button-fill-small {
+    position: absolute;
+    /* Offset it further down and to the right */
+    top: 6px;    /* Increased offset */
+    left: 6px;   /* Increased offset */
+
+    width: 125px;  /* Match outline's width */
+    height: 50px; /* Match outline's height */
+    background-color: #34D399; /* Vibrant green fill */
+    color: white;
+    border-radius: 0.5rem; /* Match outline's border-radius */
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    text-align: center;
+
+    z-index: 1; /* Ensure green fill is below the outline */
+    transition: top 0.1s ease-out, left 0.1s ease-out, background-color 0.15s ease-out;
+}
+
+/* Hover and Active States */
+.trial-button-container:hover .trial-button-fill {
+    background-color: #2aa779;
+}
+.trial-button-container:hover .trial-button-outline {
+    /* Optional: slightly change outline on hover */
+    /* border-color: #000; */
+}
+
+
+.trial-button-container:active .trial-button-fill {
+    /* On active, make the green fill align closer to the outline's origin,
+       but still slightly offset to show it's "pressed under" */
+    top: 3px;  /* Example: reduces offset */
+    left: 3px; /* Example: reduces offset */
+    background-color: #27956b;
+}
+
+/* To make the outline also appear to press down with the fill: */
+.trial-button-container:active .trial-button-outline {
+    top: 3px; /* Match the fill's active offset */
+    left: 3px;/* Match the fill's active offset */
+    /* If you also move the outline, ensure the container has enough space or adjust outline's relative positioning*/
+}
+/* If moving the outline, you might need to adjust the container size dynamically or pre-allocate space */
+
+
