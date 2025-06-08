@@ -424,7 +424,7 @@ function updateApiCommands(html, params) {
         // Update cURL command
         const curlCode = `curl --request POST \\
   --url https://api.pdfy.cloud/v1/generate \\
-  --header 'CLIENT-API-KEY: your_api_key' \\
+  --header 'x-client-api-key: your_api_key' \\
   --header 'Content-Type: application/json' \\
   --data '${curlPayloadString.replace(/'/g, "'\\''")}'`; // Safely escape single quotes within the data
 
@@ -436,7 +436,7 @@ import json
 
 url = "https://api.pdfy.cloud/v1/generate"
 headers = {
-    "CLIENT-API-KEY": "your_api_key",
+    "x-client-api-key": "your_api_key",
     "Content-Type": "application/json"
 }
 
@@ -458,7 +458,7 @@ print(result)`
     const response = await fetch('https://api.pdfy.cloud/v1/generate', {
       method: 'POST',
       headers: {
-        'CLIENT-API-KEY': 'your_api_key',
+        'x-client-api-key': 'your_api_key',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(${payloadString})
