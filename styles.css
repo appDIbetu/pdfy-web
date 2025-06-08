@@ -440,19 +440,56 @@ body {
 
 .format-btn {
     padding: 0.5rem 1rem;
-    border: 1px solid #d1d5db;
-    background: #fff;
+    border: 1px solid #d1d5db; /* Light gray border */
+    background: #fff;         /* White background */
+    color: #374151;           /* Dark gray text (Tailwind gray-700) */
     border-radius: 0.5rem;
     font-size: 0.875rem;
+    font-weight: 500; /* Medium weight often looks good for buttons */
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease-in-out; /* Added easing function */
+    outline: none; /* Remove default browser outline on focus, if desired */
 }
 
+/* Default Hover State (for any .format-btn, active or not) */
+.format-btn:hover {
+    background-color: #f3f4f6; /* Lighter gray background (Tailwind gray-100) */
+    border-color: #9ca3af;   /* Slightly darker border (Tailwind gray-400) */
+    color: #1f2937;          /* Darker text (Tailwind gray-800) */
+}
+
+/* Active State (when .active class is present) */
 .format-btn.active {
-    background: #34D399;
-    color: #000;
-    border-color: #000;
-    font-weight: 600;
+    background-color: #3b82f6; /* Blue background (Tailwind blue-500) */
+    color: #fff;               /* White text */
+    border-color: #2563eb;     /* Darker blue border (Tailwind blue-600) */
+    font-weight: 600; /* Slightly bolder for active state */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Subtle shadow for active state */
+}
+
+/* Styles for when an ACTIVE button is HOVERED */
+.format-btn.active:hover {
+    background-color: #2563eb; /* Darker blue background (Tailwind blue-600) */
+    border-color: #1d4ed8;     /* Even darker blue border (Tailwind blue-700) */
+    color: #eff6ff;            /* Slightly off-white or keep as white */
+    /* You might want a slightly different shadow or effect */
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Optional: Focus state for accessibility (visible when tabbing to the button) */
+.format-btn:focus-visible {
+    outline: 2px solid #3b82f6; /* Blue outline */
+    outline-offset: 2px;
+}
+
+/* Optional: :active pseudo-class (style DURING the click) - different from .active class */
+.format-btn:active { /* This is when the mouse button is HELD DOWN */
+    transform: translateY(1px); /* Slight press effect */
+}
+
+.format-btn.active:active { /* When an active button is HELD DOWN */
+    background-color: #1d4ed8; /* Even darker blue (Tailwind blue-700) */
+    transform: translateY(1px);
 }
 
 .preview-frame {
@@ -580,7 +617,7 @@ body {
 }
 
 .copy-btn {
-    background: #34D399;
+    background: #3c3c3c;
     color: #000;
     border: none;
     padding: 0.5rem 1rem;
@@ -595,11 +632,11 @@ body {
 }
 
 .copy-btn:hover {
-    background: #22c55e;
+    background: #7e807f;
 }
 
 .copy-btn.copied {
-    background: #10b981;
+    background: #3c3c3c;
 }
 
 .code-container {
@@ -956,22 +993,11 @@ body {
     /* Consider making it match page background or a light color for a cleaner look if border is thick */
 }
 
-.trial-button-outline-small {
-    width: 125px;
-    height: 50px;
-    border: 3px solid #1F2937;
-    /* Blackish outline */
-    border-radius: 0.5rem;
-    box-sizing: border-box;
-
-    position: relative;
-    /* Create a stacking context & allow z-index */
-    z-index: 2;
-    /* Ensure outline is on top */
-    background-color: transparent;
-    /* Or a solid color if the outline itself needs a fill */
-    /* If transparent, the green from below might show through the border's inner edge slightly */
-    /* Consider making it match page background or a light color for a cleaner look if border is thick */
+/* Hover State */
+.trial-button-container:hover .trial-button-fill {
+    background-color: #34D399; /* Darker green */
+    top: 0;  /* Align with outline */
+    left: 0; /* Align with outline */
 }
 
 .trial-button-fill {
@@ -1003,6 +1029,54 @@ body {
     z-index: 1;
     /* Ensure green fill is below the outline */
     transition: top 0.1s ease-out, left 0.1s ease-out, background-color 0.15s ease-out;
+}
+
+/* Hover and Active States
+.trial-button-container:hover .trial-button-fill {
+    background-color: #34D399;
+} */
+
+.trial-button-container:hover .trial-button-outline {
+    /* Optional: slightly change outline on hover */
+    /* border-color: #000; */
+}
+
+
+.trial-button-container:active .trial-button-fill {
+    /* On active, make the green fill align closer to the outline's origin,
+       but still slightly offset to show it's "pressed under" */
+    top: 3px;
+    /* Example: reduces offset */
+    left: 3px;
+    /* Example: reduces offset */
+    background-color: #27956b;
+}
+
+/* To make the outline also appear to press down with the fill: */
+.trial-button-container:active .trial-button-outline {
+    top: 3px;
+    /* Match the fill's active offset */
+    left: 3px;
+    /* Match the fill's active offset */
+    /* If you also move the outline, ensure the container has enough space or adjust outline's relative positioning*/
+}
+
+.trial-button-outline-small {
+    width: 125px;
+    height: 50px;
+    border: 3px solid #1F2937;
+    /* Blackish outline */
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+
+    position: relative;
+    /* Create a stacking context & allow z-index */
+    z-index: 2;
+    /* Ensure outline is on top */
+    background-color: transparent;
+    /* Or a solid color if the outline itself needs a fill */
+    /* If transparent, the green from below might show through the border's inner edge slightly */
+    /* Consider making it match page background or a light color for a cleaner look if border is thick */
 }
 
 .trial-button-fill-small {
@@ -1106,34 +1180,18 @@ body {
     transition: top 0.1s ease-out, left 0.1s ease-out, background-color 0.15s ease-out;
 }
 
-/* Hover and Active States */
-.trial-button-container:hover .trial-button-fill {
-    background-color: #2aa779;
+/* Hover State */
+.trial-button-container:hover .trial-button-fill-small {
+    background-color: #34D399; /* Darker green */
+    top: 0;  /* Align with outline */
+    left: 0; /* Align with outline */
 }
 
-.trial-button-container:hover .trial-button-outline {
-    /* Optional: slightly change outline on hover */
-    /* border-color: #000; */
-}
-
-
-.trial-button-container:active .trial-button-fill {
-    /* On active, make the green fill align closer to the outline's origin,
-       but still slightly offset to show it's "pressed under" */
-    top: 3px;
-    /* Example: reduces offset */
-    left: 3px;
-    /* Example: reduces offset */
-    background-color: #27956b;
-}
-
-/* To make the outline also appear to press down with the fill: */
-.trial-button-container:active .trial-button-outline {
-    top: 3px;
-    /* Match the fill's active offset */
-    left: 3px;
-    /* Match the fill's active offset */
-    /* If you also move the outline, ensure the container has enough space or adjust outline's relative positioning*/
+/* Hover State */
+.trial-button-container-download:hover .trial-button-fill-download {
+    background-color: #34D399; /* Darker green */
+    top: 0;  /* Align with outline */
+    left: 0; /* Align with outline */
 }
 
 /* If moving the outline, you might need to adjust the container size dynamically or pre-allocate space */
